@@ -1,0 +1,103 @@
+```{r}
+#Chargement de l'estension questionr
+library(questionr)
+
+#Chargement du jeu de données
+data("hdv2003")
+
+
+df=hdv2003
+
+#Dimension de la base
+dim(df)
+
+#Liste des variables
+names(df)
+
+#Exercice_2
+summary(df$heures.tv)
+var(df$heures.tv,na.rm=TRUE)
+sd(df$heures.tv,na.rm=TRUE)
+
+#Graphique
+#hist(df$heures.tv, breaks = 10)
+hist(df$heures.tv, breaks = 10,col = "skyblue",
+     main = "Répartition du temps passé devant la télé par les enquêtés",
+     xlab = "Heures passés",
+     ylab = "Nombre d'enquêtés")
+
+#Exercice_3
+#Tri à plat
+
+freq(df$trav.imp,
+     valid = FALSE, 
+     total = TRUE, 
+     sort = "dec")
+
+#Barplot
+tab <- table(df$trav.imp)
+barplot(tab,col = "tomato")
+
+
+#Couleur disponible
+colors()
+barplot(tab,col ="khaki")
+
+```
+ANALYSE BIVARIÉ
+
+Exercice 1
+```{r}
+table(df$qualif, df$clso)
+#tab <- table(df$qualif, df$clso)
+#lprop(tab)
+#cprop(tab)
+```
+Identification de la variable indépendante
+```{r}
+chisq.test(tab)
+
+#Pourcentgage en ligne
+lprop(tab)
+```
+La variable dépendante est et celle indépendante est
+
+L'hypothèse d'indépendance peut être rejetée puisque p<0,05
+
+Représentation du tableau sous forme de mosaicplot
+```{r}
+mosaicplot(tab)
+```
+
+Exercice 2
+Boxplot
+```{r}
+boxplot(df$heures.tv ~ df$occup,
+    main = "Temps passé devant la télé en fonction de l'occupation",
+     xlab = "Occupation ",
+     ylab = "Heure passée devant la télé")
+```
+Calcul de l'heure moyen en fonction du statut
+```{r}
+tapply(df$heures.tv, df$occup, mean,na.rm=TRUE)
+```
+
+Exercice3
+
+Nuage de points
+```{r}
+data(rp2018)
+
+plot(rp2018$dipl_aucun, rp2018$proprio,
+     main ="Pourcentage de propriétaires en fonction du pourcentage des sans diplomes",
+     xlab = "Pourcentage des sans diplomes ",
+     ylab = "Pourcentage des propriétaires")
+```
+
+Coefficient de corrélation linéaire correspondant
+
+```{r}
+cor(rp2018$dipl_aucun, rp2018$proprio, method = "spearman")
+```
+
+
